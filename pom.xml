@@ -31,6 +31,11 @@
             <version>0.4.0</version>
         </dependency>
         <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.9</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
@@ -71,6 +76,26 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <options>
+                                <option>--add-opens</option><option>javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED</option>
+                                <option>--add-opens</option><option>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</option>
+                                <option>--add-opens</option><option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
+                                <option>--add-opens</option><option>javafx.base/com.sun.javafx.binding=ALL-UNNAMED</option>
+                                <option>--add-opens</option><option>javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED</option>
+                                <option>--add-opens</option><option>javafx.base/com.sun.javafx.event=ALL-UNNAMED</option>
+                                <option>--add-exports</option><option>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</option>
+                                <option>--add-exports</option><option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
+                                <option>--add-exports</option><option>javafx.base/com.sun.javafx.binding=ALL-UNNAMED</option>
+                                <option>--add-exports</option><option>javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED</option>
+                                <option>--add-exports</option><option>javafx.base/com.sun.javafx.event=ALL-UNNAMED</option>
+                                <!--
+                                    Refer : https://github.com/jfoenixadmin/JFoenix/issues/889#issuecomment-450744122
+                                    In order to make jfoenix works, it should need less and doesn't need all of these.
+                                    You may have to go one by one to find what - - add-opens ... you'll need in your case.
+                                    - - add-opens is for enabling deep-reflection
+                                    - - add-exports is for direct access
+                                -->
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
