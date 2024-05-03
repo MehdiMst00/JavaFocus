@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Objects;
 
-public class JavaFocusApplication extends Application {
+public class Main extends Application {
 
     private Stage stage;
 
@@ -59,7 +59,7 @@ public class JavaFocusApplication extends Application {
             // set up a system tray icon.
             java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
 
-            java.awt.Image image = Toolkit.getDefaultToolkit().createImage(JavaFocusApplication.class.getResource("icon_tray.png"));
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage(Main.class.getResource("icon_tray.png"));
             java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(image);
 
             // if the user double-clicks on the tray icon, show the main app stage.
