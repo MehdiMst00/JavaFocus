@@ -61,19 +61,27 @@ public class MainController implements Initializable {
         // First init app
         initTimeline();
 
-        // Change page and back into main page
+        // For open log activity first next open main page with RUNNING status
         if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
             startTimerButton.setDisable(true);
             timerLabel.setText(Main.time.format(dtf));
-            // We have to stop and clean keyFrames and start again
             resetKeyFrame(true);
         }
 
-        // For open log activity first and open main page
-        if (timerLabel != null && !Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
+        // For open log activity first next open main page with STOPPED status
+        if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.STOPPED)) {
             Main.time = LocalTime.parse("02:00:00");
             timerLabel.setText(Main.time.format(dtf));
             resetKeyFrame(false);
+        }
+
+        // For open log activity first next open main page with PAUSED status
+        if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.PAUSED)) {
+            pauseTimerButton.setText("Continue");
+            startTimerButton.setDisable(true);
+            timerLabel.setText(Main.time.format(dtf));
+            resetKeyFrame(true);
+            Main.timeline.pause();
         }
 
         // For log activity history
@@ -146,10 +154,12 @@ public class MainController implements Initializable {
     private void pauseTimer(ActionEvent event) {
         if (Main.timeline.getStatus().equals(Animation.Status.PAUSED)) {
             Main.timeline.play();
+            startTimerButton.setDisable(true);
             pauseTimerButton.setText("Pause");
             LogActivityService.start();
         } else if (Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
             Main.timeline.pause();
+            startTimerButton.setDisable(true);
             pauseTimerButton.setText("Continue");
             LogActivityService.stop();
         }

@@ -77,7 +77,7 @@ public class Main extends Application {
 
             // if the user selects the default menu item (which includes the app name),
             // show the main app stage.
-            java.awt.MenuItem openItem = new java.awt.MenuItem("Open");
+            java.awt.MenuItem openItem = new java.awt.MenuItem("Open Focus");
             openItem.addActionListener(event -> Platform.runLater(this::showStage));
 
             java.awt.MenuItem activityItem = new java.awt.MenuItem("Activity Log");
