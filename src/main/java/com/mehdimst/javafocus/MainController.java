@@ -24,6 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
@@ -107,11 +109,24 @@ public class MainController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends LogActivity> observableValue, LogActivity logActivity, LogActivity t1) {
                     LogActivity log = logsListView.getSelectionModel().getSelectedItem();
-                    startTimeLbl.setText(log.getStartTime().format(fullDateTimeFormat));
-                    LocalDateTime endDateTime = log.getEndTime();
-                    if (endDateTime != null)
-                        endTimeLbl.setText(endDateTime.format(fullDateTimeFormat));
-                    descriptionTxt.setText(log.getDescription());
+                    if (log != null) {
+                        startTimeLbl.setText(log.getStartTime().format(fullDateTimeFormat));
+                        LocalDateTime endDateTime = log.getEndTime();
+                        if (endDateTime != null)
+                            endTimeLbl.setText(endDateTime.format(fullDateTimeFormat));
+                        descriptionTxt.setText(log.getDescription());
+                    }
+                }
+            });
+
+            descriptionTxt.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.ENTER) {
+                    LogActivity log = logsListView.getSelectionModel().getSelectedItem();
+                    if (log != null) {
+                        log.setDescription(descriptionTxt.getText());
+                        logsListView.getItems().clear();
+                        logsListView.getItems().addAll(LogActivityService.getLogs());
+                    }
                 }
             });
         }
