@@ -1,25 +1,30 @@
 package com.mehdimst.javafocus;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.Parent;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Main extends Application {
 
-    private Stage stage;
+    private static Stage stage;
+
+    public static Timeline timeline;
+    public static LocalTime time;
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
+        Main.stage = stage;
 
         // Run in background
         Platform.setImplicitExit(false);
@@ -29,13 +34,18 @@ public class Main extends Application {
 
         // Load app
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-view.fxml")));
-        stage.setTitle("Focus on your job");
+        stage.setTitle("Focus");
         stage.setResizable(false);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass()
                 .getResourceAsStream("icon.png"))));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
+    }
+
+    public static void changeScene(String fxml) throws IOException {
+        Parent pane = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource(fxml)));
+        stage.getScene().setRoot(pane);
     }
 
     public static void main(String[] args) {
@@ -67,8 +77,17 @@ public class Main extends Application {
 
             // if the user selects the default menu item (which includes the app name),
             // show the main app stage.
-            java.awt.MenuItem openItem = new java.awt.MenuItem("Focus on your job");
+            java.awt.MenuItem openItem = new java.awt.MenuItem("Open");
             openItem.addActionListener(event -> Platform.runLater(this::showStage));
+
+            java.awt.MenuItem activityItem = new java.awt.MenuItem("Activity Log");
+            activityItem.addActionListener(event -> Platform.runLater(() -> {
+                try {
+                    Main.changeScene("log-activity.fxml");
+                    showStage();
+                } catch (IOException ignored) {
+                }
+            }));
 
             // the convention for tray icons seems to be to set the default icon for opening
             // the application stage in a bold font.
@@ -88,6 +107,7 @@ public class Main extends Application {
             // setup the popup menu for the application.
             final java.awt.PopupMenu popup = new java.awt.PopupMenu();
             popup.add(openItem);
+            popup.add(activityItem);
             popup.addSeparator();
             popup.add(exitItem);
             trayIcon.setPopupMenu(popup);

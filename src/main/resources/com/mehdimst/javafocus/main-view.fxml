@@ -12,9 +12,9 @@
 
 <AnchorPane onMouseDragged="#RootMouseDragged" onMousePressed="#RootMousePressed"
             onMouseClicked="#OnMouseDoubleClick"
-        style="-fx-background-color: #141e2a; -fx-border-color: #1e3953; -fx-border-width: 5;"
+            style="-fx-background-color: #141e2a; -fx-border-color: #1e3953; -fx-border-width: 10;"
             xmlns="http://javafx.com/javafx/9.0.10" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.mehdimst.javafocus.ApplicationController">
+            fx:controller="com.mehdimst.javafocus.MainController">
 
     <VBox alignment="CENTER" layoutX="10.0" layoutY="9.0" prefHeight="351.0" prefWidth="587.0" spacing="10.0"
           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -25,7 +25,7 @@
 
         <HBox alignment="CENTER" spacing="40.0">
 
-            <Label fx:id="timerLabel" text="02:00:00" textFill="WHITE">
+            <Label fx:id="timerLabel" textFill="#fff">
                 <font>
                     <Font size="61.0"/>
                 </font>
@@ -35,7 +35,7 @@
         <HBox alignment="CENTER" prefHeight="141.0" prefWidth="378.0" spacing="20.0">
 
             <JFXButton fx:id="startTimerButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP"
-                       onAction="#startTimer" ripplerFill="WHITE" text="Start" textAlignment="CENTER" textFill="WHITE">
+                       onAction="#startTimer" ripplerFill="WHITE" text="Start" textAlignment="CENTER" textFill="#fff">
                 <font>
                     <Font name="System Bold" size="16.0"/>
                 </font>
@@ -44,7 +44,7 @@
                 </cursor>
             </JFXButton>
             <JFXButton fx:id="pauseTimerButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP"
-                       onAction="#pauseTimer" ripplerFill="WHITE" text="Pause" textAlignment="CENTER" textFill="WHITE">
+                       onAction="#pauseTimer" ripplerFill="#fff" text="Pause" textAlignment="CENTER" textFill="#fff">
                 <font>
                     <Font name="System Bold" size="16.0"/>
                 </font>
@@ -53,7 +53,16 @@
                 </cursor>
             </JFXButton>
             <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#endTimer"
-                       ripplerFill="WHITE" text="Stop" textAlignment="CENTER" textFill="WHITE">
+                       ripplerFill="#fff" text="Stop" textAlignment="CENTER" textFill="#fff">
+                <font>
+                    <Font name="System Bold" size="16.0"/>
+                </font>
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+            </JFXButton>
+            <JFXButton alignment="CENTER" buttonType="FLAT" contentDisplay="TOP" onAction="#showActivity"
+                       ripplerFill="#fff" text="Activity" textAlignment="CENTER" textFill="#fff">
                 <font>
                     <Font name="System Bold" size="16.0"/>
                 </font>
@@ -70,14 +79,15 @@
 
     <Pane prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #1e3953;" AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0">
-        <Label layoutX="5.0" layoutY="5.0" prefHeight="19.0" prefWidth="127.0" text="Focus" textFill="WHITE">
+        <Label layoutX="5.0" layoutY="5.0" prefHeight="19.0" prefWidth="127.0" text="Focus" textFill="#fff">
             <font>
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
     </Pane>
 
-    <JFXButton onAction="#closeWindow" prefHeight="35.0" prefWidth="40.0" text="X" textFill="WHITE" AnchorPane.rightAnchor="0.0" />
-    <JFXButton onAction="#MinWindow" prefHeight="35.0" prefWidth="49.0" text="-" textFill="WHITE"
-               AnchorPane.rightAnchor="40.0" />
+    <JFXButton onAction="#closeWindow" prefHeight="35.0" prefWidth="40.0" text="X" textFill="#fff"
+               AnchorPane.rightAnchor="0.0"/>
+    <JFXButton onAction="#MinWindow" prefHeight="35.0" prefWidth="40.0" text="-" textFill="#fff"
+               AnchorPane.rightAnchor="40.0"/>
 </AnchorPane>
