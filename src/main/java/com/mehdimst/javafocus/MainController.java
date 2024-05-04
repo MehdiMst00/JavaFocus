@@ -7,6 +7,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
@@ -25,7 +26,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
@@ -46,7 +46,9 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton pauseTimerButton;
     @FXML
-    private Label timerLabel;
+    private TextField timerTxt;
+    @FXML
+    private Label errorMessage;
 
     @FXML
     private ListView<LogActivity> logsListView;
@@ -64,24 +66,26 @@ public class MainController implements Initializable {
         initTimeline();
 
         // For open log activity first next open main page with RUNNING status
-        if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
+        if (timerTxt != null && Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
             startTimerButton.setDisable(true);
-            timerLabel.setText(Main.time.format(dtf));
+            timerTxt.setDisable(true);
+            timerTxt.setText(Main.time.format(dtf));
             resetKeyFrame(true);
         }
 
         // For open log activity first next open main page with STOPPED status
-        if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.STOPPED)) {
-            Main.time = LocalTime.parse("02:00:00");
-            timerLabel.setText(Main.time.format(dtf));
+        if (timerTxt != null && Main.timeline.getStatus().equals(Animation.Status.STOPPED)) {
+            Main.time = LocalTime.parse(Main.defaultTimeString);
+            timerTxt.setText(Main.time.format(dtf));
             resetKeyFrame(false);
         }
 
         // For open log activity first next open main page with PAUSED status
-        if (timerLabel != null && Main.timeline.getStatus().equals(Animation.Status.PAUSED)) {
+        if (timerTxt != null && Main.timeline.getStatus().equals(Animation.Status.PAUSED)) {
             pauseTimerButton.setText("Continue");
             startTimerButton.setDisable(true);
-            timerLabel.setText(Main.time.format(dtf));
+            timerTxt.setDisable(true);
+            timerTxt.setText(Main.time.format(dtf));
             resetKeyFrame(true);
             Main.timeline.pause();
         }
@@ -136,9 +140,9 @@ public class MainController implements Initializable {
         if (Main.timeline == null) {
             Main.timeline = new Timeline(keyFrame);
             Main.timeline.setCycleCount(Animation.INDEFINITE);
-            Main.time = LocalTime.parse("02:00:00");
-            if (timerLabel != null)
-                timerLabel.setText(Main.time.format(dtf));
+            Main.time = LocalTime.parse(Main.defaultTimeString);
+            if (timerTxt != null)
+                timerTxt.setText(Main.time.format(dtf));
         }
     }
 
@@ -153,15 +157,27 @@ public class MainController implements Initializable {
 
     private void incrementTime() {
         Main.time = Main.time.plusSeconds(-1);
-        if (timerLabel != null) {
-            timerLabel.setText(Main.time.format(dtf));
+        if (timerTxt != null) {
+            timerTxt.setText(Main.time.format(dtf));
         }
     }
 
     @FXML
     private void startTimer(ActionEvent event) {
+        Main.defaultTimeString = timerTxt.getText();
+        try {
+            Main.time = LocalTime.parse(Main.defaultTimeString);
+        } catch (Exception ex) {
+            Main.defaultTimeString = "01:00:00";
+            Main.time = LocalTime.parse(Main.defaultTimeString);
+            timerTxt.setText(Main.defaultTimeString);
+            errorMessage.setText(ex.getLocalizedMessage());
+            return;
+        }
+        errorMessage.setText("");
         Main.timeline.play();
         startTimerButton.setDisable(true);
+        timerTxt.setDisable(true);
         LogActivityService.start();
     }
 
@@ -170,11 +186,13 @@ public class MainController implements Initializable {
         if (Main.timeline.getStatus().equals(Animation.Status.PAUSED)) {
             Main.timeline.play();
             startTimerButton.setDisable(true);
+            timerTxt.setDisable(true);
             pauseTimerButton.setText("Pause");
             LogActivityService.start();
         } else if (Main.timeline.getStatus().equals(Animation.Status.RUNNING)) {
             Main.timeline.pause();
             startTimerButton.setDisable(true);
+            timerTxt.setDisable(true);
             pauseTimerButton.setText("Continue");
             LogActivityService.stop();
         }
@@ -185,8 +203,9 @@ public class MainController implements Initializable {
         if (startTimerButton.isDisable()) {
             Main.timeline.stop();
             startTimerButton.setDisable(false);
-            Main.time = LocalTime.parse("02:00:00");
-            timerLabel.setText(Main.time.format(dtf));
+            timerTxt.setDisable(false);
+            Main.time = LocalTime.parse(Main.defaultTimeString);
+            timerTxt.setText(Main.time.format(dtf));
             LogActivityService.stop();
         }
     }

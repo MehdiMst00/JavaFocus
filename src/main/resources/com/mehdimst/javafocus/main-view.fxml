@@ -10,6 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import com.jfoenix.controls.JFXButton?>
 
+<?import javafx.scene.control.TextField?>
 <AnchorPane onMouseDragged="#RootMouseDragged" onMousePressed="#RootMousePressed"
             onMouseClicked="#OnMouseDoubleClick"
             style="-fx-background-color: #141e2a; -fx-border-color: #1e3953; -fx-border-width: 10;"
@@ -25,11 +26,11 @@
 
         <HBox alignment="CENTER" spacing="40.0">
 
-            <Label fx:id="timerLabel" textFill="#fff">
+            <TextField fx:id="timerTxt" style="-fx-background-color: #1e3953; -fx-text-fill: #fff" alignment="CENTER">
                 <font>
                     <Font size="61.0"/>
                 </font>
-            </Label>
+            </TextField>
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="141.0" prefWidth="378.0" spacing="20.0">
@@ -90,4 +91,6 @@
                AnchorPane.rightAnchor="0.0"/>
     <JFXButton onAction="#MinWindow" prefHeight="35.0" prefWidth="40.0" text="-" textFill="#fff"
                AnchorPane.rightAnchor="40.0"/>
+
+    <Label layoutX="11.0" layoutY="330.0" textFill="#fff" AnchorPane.bottomAnchor="2.0" fx:id="errorMessage" />
 </AnchorPane>

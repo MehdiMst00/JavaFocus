@@ -21,6 +21,7 @@ public class Main extends Application {
 
     public static Timeline timeline;
     public static LocalTime time;
+    public static String defaultTimeString = "01:00:00"; // TODO: Save better place
 
     @Override
     public void start(Stage stage) throws IOException {
