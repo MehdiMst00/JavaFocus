@@ -7,7 +7,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import javafx.animation.Animation;
@@ -130,6 +129,15 @@ public class MainController implements Initializable {
                         log.setDescription(descriptionTxt.getText());
                         logsListView.getItems().clear();
                         logsListView.getItems().addAll(LogActivityService.getLogs());
+                    } else {
+                        String q = descriptionTxt.getText();
+                        logsListView.getItems().clear();
+                        if (q == null || q.isEmpty()) {
+                            logsListView.getItems().addAll(LogActivityService.getLogs());
+                        } else {
+                            logsListView.getItems().addAll(LogActivityService.filterLogs(descriptionTxt.getText()));
+                        }
+
                     }
                 }
             });
@@ -157,6 +165,18 @@ public class MainController implements Initializable {
 
     private void incrementTime() {
         Main.time = Main.time.plusSeconds(-1);
+        int diffTime = Main.time.compareTo(LocalTime.parse("00:00:00"));
+        if (diffTime <= 0) {
+            endTimer(null);
+            Main.showStaticStage();
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            Stage s = Main.stage;
+            s.setWidth(bounds.getWidth());
+            s.setHeight(bounds.getHeight());
+            s.setX(0);
+            s.setY(0);
+        }
         if (timerTxt != null) {
             timerTxt.setText(Main.time.format(dtf));
         }

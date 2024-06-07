@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    private static Stage stage;
+    public static Stage stage;
 
     public static Timeline timeline;
     public static LocalTime time;
@@ -70,7 +70,7 @@ public class Main extends Application {
             // set up a system tray icon.
             java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
 
-            java.awt.Image image = Toolkit.getDefaultToolkit().createImage(Main.class.getResource("icon_tray.png"));
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon_tray.png"));
             java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(image);
 
             // if the user double-clicks on the tray icon, show the main app stage.
@@ -126,6 +126,17 @@ public class Main extends Application {
      * of all stages.
      */
     private void showStage() {
+        if (stage != null) {
+            stage.show();
+            stage.toFront();
+        }
+    }
+
+    /**
+     * Shows the application stage and ensures that it is brought ot the front
+     * of all stages.
+     */
+    public static void showStaticStage() {
         if (stage != null) {
             stage.show();
             stage.toFront();

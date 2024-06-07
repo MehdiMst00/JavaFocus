@@ -1,7 +1,6 @@
 package com.mehdimst.javafocus;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class LogActivity {
 
